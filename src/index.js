@@ -1,30 +1,57 @@
 import "./assets/styles/style.scss";
-import { Key } from "./key.js";
+import { renderLine } from "./functions";
+import { changeLanguage } from "./functions";
+import {
+  backspace,
+  tab,
+  del,
+  caps,
+  enter,
+  shiftR,
+  shiftL,
+  arrowUp,
+  arrowL,
+  arrowDown,
+  arrowR,
+  ctrlR,
+  ctrlL,
+  win,
+  altR,
+  altL,
+  space,
+  EN,
+  RU,
+  lineOne,
+  lineTwo,
+  lineThree,
+  lineFour,
+} from "./vars.js";
 
-const renderLine = (arrayKeys, lineElement) => {
-  arrayKeys.forEach((el) => {
-    const key = new Key(el);
-    key.renderKey(lineElement);
-  });
-};
+let isEN = true;
 
 const body = document.body;
+const tittle = document.createElement("h1");
+tittle.className = "tittle";
+tittle.innerText = "RSS Виртуальная клавиатура";
+const text = document.createElement("p");
+text.innerText = `Клавиатура создана в операционной системе Windows
+Для переключения языка используется комбинация: левый Alt + Shift`;
+
 const app = document.createElement("div");
 const screenContent = document.createElement("textarea");
 const screen = document.createElement("div");
 const keyboard = document.createElement("div");
-
-const lineOne = document.createElement("div");
-const lineTwo = document.createElement("div");
-const lineThree = document.createElement("div");
-const lineFour = document.createElement("div");
 const lineFife = document.createElement("div");
 
-const lineOneKeys = "`1234567890-=".split("");
-const lineTwoKeys = "qwertyuiop[]\\".split("");
-const lineThreeKeys = "asdfghjkl;'".split("");
-const lineFourKeys = "zxcvbnm,./".split("");
-const lineFifeKeys = ["Ctrl", "Win", "Alt", "", "Alt", "Ctrl", "◄", "▼", "►"];
+const language =
+  localStorage.getItem("language") && localStorage.getItem("language") === "RU"
+    ? RU
+    : EN;
+
+const lineOneKeys = language.lineOne.split("");
+const lineTwoKeys = language.lineTwo.split("");
+const lineThreeKeys = language.lineThree.split("");
+const lineFourKeys = language.lineFour.split("");
 
 app.className = "app";
 screen.className = "screen";
@@ -36,28 +63,10 @@ lineOne.className =
   lineFife.className =
     "lineKeys";
 
-body.append(app);
+body.append(tittle, app, text);
 app.append(screen, keyboard);
 screen.append(screenContent);
 screenContent.focus();
-
-const backspace = new Key("Backspace", "backspace");
-const tab = new Key("Tab", "tab");
-const del = new Key("DEL", "del", "Delete");
-const caps = new Key("CapsLock", "caps");
-const enter = new Key("Enter", "enter");
-const shiftR = new Key("Shift", "shift", "ShiftRight");
-const shiftL = new Key("Shift", "shift", "ShiftLeft");
-const arrowUp = new Key("▲", "arrows", "ArrowUp");
-const arrowL = new Key("◄", "arrows", "ArrowLeft");
-const arrowR = new Key("►", "arrows", "ArrowRight");
-const arrowDown = new Key("▼", "arrows", "ArrowDown");
-const ctrlR = new Key("Ctrl", "ctrl", "ControlRight");
-const ctrlL = new Key("Ctrl", "ctrl", "ControlLeft");
-const win = new Key("Win", "win", "Meta");
-const altR = new Key("Alt", "alt", "AltRight");
-const altL = new Key("Alt", "alt", "AltLeft");
-const space = new Key("", "space", "Space");
 
 renderLine(lineOneKeys, lineOne);
 backspace.renderKey(lineOne);
@@ -90,6 +99,10 @@ keyboard.append(lineOne, lineTwo, lineThree, lineFour, lineFife);
 const keys = document.querySelectorAll(".keyboard button");
 
 document.onkeydown = (event) => {
+  if (event.altKey && event.shiftKey) {
+    isEN = !isEN;
+    changeLanguage(isEN);
+  }
   keys.forEach((el) => {
     if (el.dataset.key === event.key) {
       if (event.key === "Tab") {
@@ -102,14 +115,11 @@ document.onkeydown = (event) => {
         el.classList.toggle("active");
       } else el.classList.add("active");
     }
-    //for shift ctrl
+
     if (el.dataset.key === event.code) {
       el.classList.add("active");
     }
   });
-
-  console.log(event.key);
-  console.log(event.code);
 };
 
 document.onkeyup = (event) => {
