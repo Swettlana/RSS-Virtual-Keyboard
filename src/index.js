@@ -47,7 +47,6 @@ tittle.renderNode();
 app.renderNode();
 text.renderNode();
 screen.renderNode();
-screen.node.focus();
 keyboard.renderNode();
 
 const lang =
@@ -89,11 +88,15 @@ ctrlR.renderKey(lineFife);
 keyboard.node.append(lineOne, lineTwo, lineThree, lineFour, lineFife);
 
 const listener = (event) => {
+  screen.node.focus();
   const keys = document.querySelectorAll(".keyboard button");
   keys.forEach((el) => {
     if (el.dataset.key === event.key) {
       if (event.key === "Tab") {
         event.preventDefault();
+        const area = document.querySelector("textarea");
+        area.focus();
+        area.value += "  ";
       }
       if (event.key === "Alt") {
         event.preventDefault();
