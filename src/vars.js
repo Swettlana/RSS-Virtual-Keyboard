@@ -1,4 +1,5 @@
 import { Key } from "./key.js";
+import { ElementDOM } from "./element";
 
 const backspace = new Key("Backspace", "backspace");
 const tab = new Key("Tab", "tab");
@@ -36,6 +37,14 @@ const lineOne = document.createElement("div");
 const lineTwo = document.createElement("div");
 const lineThree = document.createElement("div");
 const lineFour = document.createElement("div");
+const lineFife = document.createElement("div");
+
+lineOne.className =
+  lineTwo.className =
+  lineThree.className =
+  lineFour.className =
+  lineFife.className =
+    "lineKeys";
 
 export {
   backspace,
@@ -61,4 +70,5 @@ export {
   lineTwo,
   lineThree,
   lineFour,
+  lineFife,
 };
