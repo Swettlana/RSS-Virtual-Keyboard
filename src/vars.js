@@ -25,6 +25,10 @@ const EN = {
   lineTwo: "qwertyuiop[]\\",
   lineThree: "asdfghjkl;'",
   lineFour: "zxcvbnm,./",
+  lineOneShift: "~!@#$%^&*()_+",
+  lineTwoShift: "QWERTYUIOP{}|",
+  lineThreeShift: 'ASDFGHJKL:"',
+  lineFourShift: "ZXCVBNM<>?",
 };
 
 const RU = {
@@ -32,6 +36,10 @@ const RU = {
   lineTwo: "йцукенгшщзхъ\\",
   lineThree: "фывапролджэ",
   lineFour: "ячсмитьбю.",
+  lineOneShift: 'Ё!"№;%:?*()_+',
+  lineTwoShift: "ЙЦУКЕНГШЩЗХЪ/",
+  lineThreeShift: "ФЫВАПРОЛДЖЭ",
+  lineFourShift: "ЯЧСМИТЬБЮ,",
 };
 
 const lineOne = document.createElement("div");

@@ -1,5 +1,5 @@
 import "./assets/styles/style.scss";
-import { renderLine } from "./functions";
+import { renderLine, rerender } from "./functions";
 import { changeLanguage, changeCaps } from "./functions";
 
 import {
@@ -139,14 +139,21 @@ document.onkeydown = (event) => {
   if (event.altKey && event.shiftKey) {
     isEN = !isEN;
     changeLanguage(isEN);
-  }
-  listener(event);
+  } else if (event.key === "Shift") {
+    if (isEN) {
+      rerender(EN, "shift");
+    } else rerender(RU, "shift");
+  } else listener(event);
 };
 
 document.onkeyup = (event) => {
   if (event.key === "Alt") {
     event.preventDefault();
   } else if (event.key === "CapsLock") {
+  } else if (event.key === "Shift") {
+    if (isEN) {
+      rerender(EN);
+    } else rerender(RU);
   } else {
     const keys = document.querySelectorAll(".keyboard button");
     keys.forEach((el) => el.classList.remove("active"));
