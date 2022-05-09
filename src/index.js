@@ -1,6 +1,7 @@
 import "./assets/styles/style.scss";
 import { renderLine } from "./functions";
-import { changeLanguage } from "./functions";
+import { changeLanguage, changeCaps } from "./functions";
+
 import {
   backspace,
   tab,
@@ -29,6 +30,9 @@ import {
 } from "./vars.js";
 import { ElementDOM } from "./element";
 
+let isCaps = localStorage.getItem("isCaps")
+  ? !!localStorage.getItem("isCaps")
+  : false;
 let isEN = true;
 
 const content = {
@@ -54,10 +58,18 @@ const lang =
     ? RU
     : EN;
 
-const lineOneKeys = lang.lineOne.split("");
-const lineTwoKeys = lang.lineTwo.split("");
-const lineThreeKeys = lang.lineThree.split("");
-const lineFourKeys = lang.lineFour.split("");
+const lineOneKeys = isCaps
+  ? lang.lineOne.toUpperCase().split("")
+  : lang.lineOne.split("");
+const lineTwoKeys = isCaps
+  ? lang.lineTwo.toUpperCase().split("")
+  : lang.lineTwo.split("");
+const lineThreeKeys = isCaps
+  ? lang.lineThree.toUpperCase().split("")
+  : lang.lineThree.split("");
+const lineFourKeys = isCaps
+  ? lang.lineFour.toUpperCase().split("")
+  : lang.lineFour.split("");
 
 renderLine(lineOneKeys, lineOne);
 backspace.renderKey(lineOne);
@@ -102,10 +114,22 @@ const listener = (event) => {
         event.preventDefault();
       }
       if (event.key === "CapsLock") {
-        el.classList.toggle("active");
-      } else el.classList.add("active");
+        if (isCaps) {
+          isCaps = false;
+          el.classList.remove("active");
+          changeCaps(isCaps);
+          localStorage.setItem("isCaps", "");
+        } else {
+          isCaps = true;
+          el.classList.add("active");
+          changeCaps(isCaps);
+          localStorage.setItem("isCaps", isCaps);
+        }
+      } else {
+        el.classList.add("active");
+      }
     }
-    if (el.dataset.key === event.code) {
+    if (el.dataset.key === event.code && el.dataset.key !== "CapsLock") {
       el.classList.add("active");
     }
   });
@@ -120,14 +144,11 @@ document.onkeydown = (event) => {
 };
 
 document.onkeyup = (event) => {
-  const keys = document.querySelectorAll(".keyboard button");
-  keys.forEach((el) => {
-    if (el.dataset.key !== "CapsLock");
-    {
-      el.classList.remove("active");
-    }
-    if (event.key === "Alt") {
-      event.preventDefault();
-    }
-  });
+  if (event.key === "Alt") {
+    event.preventDefault();
+  } else if (event.key === "CapsLock") {
+  } else {
+    const keys = document.querySelectorAll(".keyboard button");
+    keys.forEach((el) => el.classList.remove("active"));
+  }
 };

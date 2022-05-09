@@ -1,3 +1,4 @@
+import { changeCaps } from "./functions";
 export class Key {
   constructor(content, className = "key", dataset = content) {
     this.content = content;
@@ -26,6 +27,19 @@ export class Key {
         const posC = area.selectionStart;
         area.value = area.value.slice(0, posC) + area.value.slice(posC + 1);
         area.selectionStart = area.selectionEnd = posC;
+      } else if (this.node.innerText === "CapsLock") {
+        let isCaps = !!localStorage.getItem("isCaps") || false;
+        if (isCaps) {
+          isCaps = false;
+          this.node.classList.remove("active");
+          localStorage.setItem("isCaps", "");
+          changeCaps(isCaps);
+        } else {
+          isCaps = true;
+          localStorage.setItem("isCaps", isCaps);
+          this.node.classList.add("active");
+          changeCaps(isCaps);
+        }
       } else if (
         this.node.innerText === "Ctrl" ||
         this.node.innerText === "Win" ||

@@ -1,10 +1,11 @@
 import { Key } from "./key.js";
-import { ElementDOM } from "./element";
-
 const backspace = new Key("Backspace", "backspace");
 const tab = new Key("Tab", "tab");
 const del = new Key("DEL", "del", "Delete");
 const caps = new Key("CapsLock", "caps");
+if (!!localStorage.getItem("isCaps")) {
+  caps.node.classList.add("active");
+}
 const enter = new Key("Enter", "enter");
 const shiftR = new Key("Shift", "shift", "ShiftRight");
 const shiftL = new Key("Shift", "shift", "ShiftLeft");

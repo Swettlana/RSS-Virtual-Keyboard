@@ -31,7 +31,14 @@ export const renderLine = (arrayKeys, lineElement) => {
     key.renderKey(lineElement);
   });
 };
-
+export const changeCaps = (isCaps) => {
+  const letters = document.querySelectorAll(".key");
+  if (isCaps) {
+    letters.forEach((el) => (el.innerText = el.innerText.toUpperCase()));
+  } else {
+    letters.forEach((el) => (el.innerText = el.innerText.toLowerCase()));
+  }
+};
 export const rerender = (lang) => {
   lineOne.innerHTML = "";
   lineTwo.innerHTML = "";
