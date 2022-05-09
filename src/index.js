@@ -1,6 +1,7 @@
-import "./assets/styles/style.scss";
-import { renderLine, rerender } from "./functions";
-import { changeLanguage, changeCaps } from "./functions";
+import './assets/styles/style.scss';
+import {
+  renderLine, rerender, changeLanguage, changeCaps,
+} from './functions';
 
 import {
   backspace,
@@ -27,25 +28,25 @@ import {
   lineThree,
   lineFour,
   lineFife,
-} from "./vars.js";
-import { ElementDOM } from "./element";
+} from './vars';
+import { ElementDOM } from './element';
 
-let isCaps = localStorage.getItem("isCaps")
-  ? !!localStorage.getItem("isCaps")
+let isCaps = localStorage.getItem('isCaps')
+  ? !!localStorage.getItem('isCaps')
   : false;
 let isEN = true;
 
 const content = {
-  tittle: "RSS Виртуальная клавиатура",
+  tittle: 'RSS Виртуальная клавиатура',
   info: `Клавиатура создана в операционной системе Windows
   Для переключения языка используется комбинация: левый Alt + Shift`,
 };
 
-const tittle = new ElementDOM(document.body, "tittle", "h1", content.tittle);
-const text = new ElementDOM(document.body, "", "p", content.info);
-const app = new ElementDOM(document.body, "app");
-const screen = new ElementDOM(app.node, "screen", "textarea");
-const keyboard = new ElementDOM(app.node, "keyboard");
+const tittle = new ElementDOM(document.body, 'tittle', 'h1', content.tittle);
+const text = new ElementDOM(document.body, '', 'p', content.info);
+const app = new ElementDOM(document.body, 'app');
+const screen = new ElementDOM(app.node, 'screen', 'textarea');
+const keyboard = new ElementDOM(app.node, 'keyboard');
 
 tittle.renderNode();
 app.renderNode();
@@ -53,23 +54,22 @@ text.renderNode();
 screen.renderNode();
 keyboard.renderNode();
 
-const lang =
-  localStorage.getItem("language") && localStorage.getItem("language") === "RU"
-    ? RU
-    : EN;
+const lang = localStorage.getItem('language') && localStorage.getItem('language') === 'RU'
+  ? RU
+  : EN;
 
 const lineOneKeys = isCaps
-  ? lang.lineOne.toUpperCase().split("")
-  : lang.lineOne.split("");
+  ? lang.lineOne.toUpperCase().split('')
+  : lang.lineOne.split('');
 const lineTwoKeys = isCaps
-  ? lang.lineTwo.toUpperCase().split("")
-  : lang.lineTwo.split("");
+  ? lang.lineTwo.toUpperCase().split('')
+  : lang.lineTwo.split('');
 const lineThreeKeys = isCaps
-  ? lang.lineThree.toUpperCase().split("")
-  : lang.lineThree.split("");
+  ? lang.lineThree.toUpperCase().split('')
+  : lang.lineThree.split('');
 const lineFourKeys = isCaps
-  ? lang.lineFour.toUpperCase().split("")
-  : lang.lineFour.split("");
+  ? lang.lineFour.toUpperCase().split('')
+  : lang.lineFour.split('');
 
 renderLine(lineOneKeys, lineOne);
 backspace.renderKey(lineOne);
@@ -101,36 +101,36 @@ keyboard.node.append(lineOne, lineTwo, lineThree, lineFour, lineFife);
 
 const listener = (event) => {
   screen.node.focus();
-  const keys = document.querySelectorAll(".keyboard button");
+  const keys = document.querySelectorAll('.keyboard button');
   keys.forEach((el) => {
     if (el.dataset.key === event.key) {
-      if (event.key === "Tab") {
+      if (event.key === 'Tab') {
         event.preventDefault();
-        const area = document.querySelector("textarea");
+        const area = document.querySelector('textarea');
         area.focus();
-        area.value += "  ";
+        area.value += '  ';
       }
-      if (event.key === "Alt") {
+      if (event.key === 'Alt') {
         event.preventDefault();
       }
-      if (event.key === "CapsLock") {
+      if (event.key === 'CapsLock') {
         if (isCaps) {
           isCaps = false;
-          el.classList.remove("active");
+          el.classList.remove('active');
           changeCaps(isCaps);
-          localStorage.setItem("isCaps", "");
+          localStorage.setItem('isCaps', '');
         } else {
           isCaps = true;
-          el.classList.add("active");
+          el.classList.add('active');
           changeCaps(isCaps);
-          localStorage.setItem("isCaps", isCaps);
+          localStorage.setItem('isCaps', isCaps);
         }
       } else {
-        el.classList.add("active");
+        el.classList.add('active');
       }
     }
-    if (el.dataset.key === event.code && el.dataset.key !== "CapsLock") {
-      el.classList.add("active");
+    if (el.dataset.key === event.code && el.dataset.key !== 'CapsLock') {
+      el.classList.add('active');
     }
   });
 };
@@ -139,23 +139,22 @@ document.onkeydown = (event) => {
   if (event.altKey && event.shiftKey) {
     isEN = !isEN;
     changeLanguage(isEN);
-  } else if (event.key === "Shift") {
+  } else if (event.key === 'Shift') {
     if (isEN) {
-      rerender(EN, "shift");
-    } else rerender(RU, "shift");
+      rerender(EN, 'shift');
+    } else rerender(RU, 'shift');
   } else listener(event);
 };
 
 document.onkeyup = (event) => {
-  if (event.key === "Alt") {
+  if (event.key === 'Alt') {
     event.preventDefault();
-  } else if (event.key === "CapsLock") {
-  } else if (event.key === "Shift") {
+  } else if (event.key === 'Shift') {
     if (isEN) {
       rerender(EN);
     } else rerender(RU);
-  } else {
-    const keys = document.querySelectorAll(".keyboard button");
-    keys.forEach((el) => el.classList.remove("active"));
+  } else if (event.key !== 'CapsLock') {
+    const keys = document.querySelectorAll('.keyboard button');
+    keys.forEach((el) => el.classList.remove('active'));
   }
 };
