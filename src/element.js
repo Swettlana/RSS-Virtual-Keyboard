@@ -1,5 +1,5 @@
 export class ElementDOM {
-  constructor(parent, className, tag = 'div', content = '') {
+  constructor(parent, className, tag = "div", content = "") {
     this.node = document.createElement(tag);
     this.node.className = className;
     this.node.innerText = content;
