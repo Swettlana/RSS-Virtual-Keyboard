@@ -1,2 +1,1 @@
-# RSS-Virtual-Keyboard
-RSS Virtual Keyboard
+https://swettlana.github.io/RSS-Virtual-Keyboard/
