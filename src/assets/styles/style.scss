@@ -1,0 +1,126 @@
+@mixin keyStyle {
+  height: 40px;
+  color: #fff;
+  border: none;
+  border: 1px solid rgb(56, 54, 54);
+  border-radius: 5px;
+  text-align: center;
+  padding: 2px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 2px 2px rgb(83, 93, 101);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgb(108, 107, 107);
+  }
+  &:active {
+    transform: scaleY(0.95);
+    box-shadow: none;
+    background-color: rgb(36, 35, 35);
+    color: #000;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../img/background.jpg");
+  align-items: center;
+}
+h1 {
+  color: #fff;
+}
+p {
+  color: #fff;
+}
+.app {
+  width: 90vw;
+  max-width: 700px;
+  height: 80%;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: rgb(23, 23, 58);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 10px;
+}
+.screen {
+  width: 100%;
+  height: 50%;
+  background-color: rgb(255, 251, 251);
+  textarea {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 251, 251);
+    border: none;
+    box-sizing: border-box;
+  }
+}
+.keyboard {
+  width: 100%;
+  height: 50%;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: 10px;
+  background-color: rgb(141, 128, 128);
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.lineKeys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+}
+.key,
+.space {
+  @include keyStyle();
+  width: 40px;
+  background-color: rgb(79, 79, 79);
+}
+
+.backspace,
+.caps,
+.enter,
+.shift,
+.tab,
+.del,
+.ctrl,
+.arrows,
+.win,
+.alt {
+  @include keyStyle();
+  width: 90px;
+  background-color: rgb(47, 46, 46);
+}
+
+.tab,
+.del,
+.ctrl,
+.arrows,
+.win,
+.alt {
+  width: 43px;
+}
+
+.space {
+  width: 300px;
+}
+
+.active {
+  transform: scaleY(0.95);
+  box-shadow: none;
+  background-color: rgb(36, 35, 35);
+  color: #000;
+}
